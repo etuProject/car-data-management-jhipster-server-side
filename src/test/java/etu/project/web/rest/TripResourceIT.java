@@ -112,7 +112,7 @@ public class TripResourceIT {
 
         // Create the Trip
         restTripMockMvc.perform(post("/api/trips")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(trip)))
             .andExpect(status().isCreated());
 
@@ -134,7 +134,7 @@ public class TripResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restTripMockMvc.perform(post("/api/trips")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(trip)))
             .andExpect(status().isBadRequest());
 
@@ -158,7 +158,7 @@ public class TripResourceIT {
             .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.toString())))
             .andExpect(jsonPath("$.[*].endTime").value(hasItem(DEFAULT_END_TIME.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getTrip() throws Exception {
@@ -199,7 +199,7 @@ public class TripResourceIT {
             .endTime(UPDATED_END_TIME);
 
         restTripMockMvc.perform(put("/api/trips")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(updatedTrip)))
             .andExpect(status().isOk());
 
@@ -220,7 +220,7 @@ public class TripResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restTripMockMvc.perform(put("/api/trips")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(trip)))
             .andExpect(status().isBadRequest());
 
@@ -239,7 +239,7 @@ public class TripResourceIT {
 
         // Delete the trip
         restTripMockMvc.perform(delete("/api/trips/{id}", trip.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8 ))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

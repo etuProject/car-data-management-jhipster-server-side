@@ -120,7 +120,7 @@ public class LocationResourceIT {
 
         // Create the Location
         restLocationMockMvc.perform(post("/api/locations")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(location)))
             .andExpect(status().isCreated());
 
@@ -144,7 +144,7 @@ public class LocationResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restLocationMockMvc.perform(post("/api/locations")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(location)))
             .andExpect(status().isBadRequest());
 
@@ -170,7 +170,7 @@ public class LocationResourceIT {
             .andExpect(jsonPath("$.[*].longitude").value(hasItem(DEFAULT_LONGITUDE.doubleValue())))
             .andExpect(jsonPath("$.[*].speed").value(hasItem(DEFAULT_SPEED.doubleValue())));
     }
-    
+
     @Test
     @Transactional
     public void getLocation() throws Exception {
@@ -215,7 +215,7 @@ public class LocationResourceIT {
             .speed(UPDATED_SPEED);
 
         restLocationMockMvc.perform(put("/api/locations")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(updatedLocation)))
             .andExpect(status().isOk());
 
@@ -238,7 +238,7 @@ public class LocationResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restLocationMockMvc.perform(put("/api/locations")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8 )
             .content(TestUtil.convertObjectToJsonBytes(location)))
             .andExpect(status().isBadRequest());
 
@@ -257,7 +257,7 @@ public class LocationResourceIT {
 
         // Delete the location
         restLocationMockMvc.perform(delete("/api/locations/{id}", location.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8 ))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
